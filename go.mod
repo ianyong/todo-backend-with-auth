@@ -7,6 +7,7 @@ require (
 	github.com/awslabs/aws-lambda-go-api-proxy v0.11.0
 	github.com/go-chi/chi/v5 v5.0.4
 	github.com/go-chi/cors v1.2.0
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/go-cmp v0.5.0
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/joho/godotenv v1.4.0
