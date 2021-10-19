@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -9,9 +10,10 @@ import (
 )
 
 type Response struct {
-	Payload  json.RawMessage `json:"payload"`
-	Messages StatusMessages  `json:"messages"`
-	Code     int             `json:"-"`
+	Payload     json.RawMessage `json:"payload"`
+	Messages    StatusMessages  `json:"messages"`
+	Code        int             `json:"-"`
+	AccessToken string          `json:"-"`
 }
 
 type Handler = func(*http.Request, *services.Services) (*Response, error)
@@ -44,6 +46,10 @@ func serveHTTPResponse(w http.ResponseWriter, response *Response) {
 
 	if response.Messages == nil {
 		response.Messages = []StatusMessage{}
+	}
+
+	if response.AccessToken != "" {
+		w.Header().Set("Authorization", fmt.Sprintf("Bearer %s", response.AccessToken))
 	}
 
 	if response.Code > 0 {

@@ -23,7 +23,7 @@ func Login(r *http.Request, s *services.Services) (*api.Response, error) {
 		return nil, fmt.Errorf("params failed validation: %w", err)
 	}
 
-	user, err := s.UserService.Login(loginParams.Email.ValueOrZero(), loginParams.Password.ValueOrZero())
+	user, accessToken, err := s.UserService.Login(loginParams.Email.ValueOrZero(), loginParams.Password.ValueOrZero())
 	if err != nil {
 		return nil, fmt.Errorf("failed to login: %w", err)
 	}
@@ -36,7 +36,8 @@ func Login(r *http.Request, s *services.Services) (*api.Response, error) {
 	}
 
 	return &api.Response{
-		Payload: data,
-		Code:    http.StatusOK,
+		Payload:     data,
+		Code:        http.StatusOK,
+		AccessToken: accessToken,
 	}, nil
 }

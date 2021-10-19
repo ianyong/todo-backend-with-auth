@@ -10,6 +10,7 @@ import (
 
 	"github.com/ianyong/todo-backend/internal/adapters/infrastructure/database"
 	"github.com/ianyong/todo-backend/internal/adapters/userinterface/router"
+	"github.com/ianyong/todo-backend/internal/auth"
 	"github.com/ianyong/todo-backend/internal/config"
 	"github.com/ianyong/todo-backend/internal/services"
 )
@@ -28,7 +29,12 @@ func main() {
 		log.Fatalf("failed to connect to database: %v\n", err)
 	}
 
-	s := services.SetUp(db)
+	jwtManager, err := auth.NewJWTManager(cfg.SecretKey, nil)
+	if err != nil {
+		log.Fatalf("failed to create JWT manager: %v\n", err)
+	}
+
+	s := services.SetUp(db, jwtManager)
 	r := router.SetUp(s, cfg)
 	l = chiadapter.New(r)
 

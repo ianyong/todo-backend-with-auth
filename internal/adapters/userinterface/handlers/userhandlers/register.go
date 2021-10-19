@@ -23,7 +23,10 @@ func Register(r *http.Request, s *services.Services) (*api.Response, error) {
 		return nil, fmt.Errorf("params failed validation: %w", err)
 	}
 
-	user, err := s.UserService.Register(registerParams.Email.ValueOrZero(), registerParams.Password.ValueOrZero())
+	user, accessToken, err := s.UserService.Register(
+		registerParams.Email.ValueOrZero(),
+		registerParams.Password.ValueOrZero(),
+	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to register: %w", err)
 	}
@@ -36,7 +39,8 @@ func Register(r *http.Request, s *services.Services) (*api.Response, error) {
 	}
 
 	return &api.Response{
-		Payload: data,
-		Code:    http.StatusCreated,
+		Payload:     data,
+		Code:        http.StatusCreated,
+		AccessToken: accessToken,
 	}, nil
 }
