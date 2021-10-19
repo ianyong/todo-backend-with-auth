@@ -46,6 +46,7 @@ func setUpRoutes(r chi.Router, s *services.Services) {
 		r.Group(func(r chi.Router) {
 			r.Use(authMiddleware(s))
 
+			r.Route("/helloworld", routes.GetHelloRoutes(s))
 			r.Route("/todos", routes.GetTodoRoutes(s))
 		})
 	})

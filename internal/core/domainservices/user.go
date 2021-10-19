@@ -25,6 +25,15 @@ func NewUserService(userRepo repositories.User, jwtManager *auth.JWTManager) *Us
 	}
 }
 
+func (s *UserService) GetUserByEmail(email string) (*domainmodels.User, error) {
+	user, err := s.userRepo.GetByEmail(email)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
 func (s *UserService) Login(email string, password string) (*domainmodels.User, string, error) {
 	user, err := s.userRepo.GetByEmail(email)
 	if err != nil {
