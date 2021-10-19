@@ -25,7 +25,7 @@ func NewJWTManager(secretKey string, tokenDuration *time.Duration) (*JWTManager,
 	}, nil
 }
 
-func (m *JWTManager) Generate(userID int64) (string, error) {
+func (m *JWTManager) Generate(email string) (string, error) {
 	// An expiry claim of 0 indicates that the token never expires.
 	expiresAt := int64(0)
 	if m.tokenDuration != nil {
@@ -36,7 +36,7 @@ func (m *JWTManager) Generate(userID int64) (string, error) {
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expiresAt,
 		},
-		UserID: userID,
+		Email: email,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)

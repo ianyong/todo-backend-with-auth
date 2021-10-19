@@ -41,7 +41,7 @@ func (s *UserService) Login(email string, password string) (*domainmodels.User, 
 		return nil, "", err
 	}
 
-	token, err := s.jwtManager.Generate(user.ID)
+	token, err := s.jwtManager.Generate(user.Email)
 	if err != nil {
 		return nil, "", fmt.Errorf("unable to generate JWT: %v", err)
 	}
@@ -63,7 +63,7 @@ func (s *UserService) Register(email string, password string) (*domainmodels.Use
 		return nil, "", err
 	}
 
-	token, err := s.jwtManager.Generate(user.ID)
+	token, err := s.jwtManager.Generate(user.Email)
 	if err != nil {
 		return nil, "", fmt.Errorf("unable to generate JWT: %v", err)
 	}
