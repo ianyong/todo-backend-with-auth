@@ -21,18 +21,13 @@ type Handler = func(*http.Request, *services.Services) (*Response, error)
 // WrapHandler converts the internal Handler type into a standard http.HandlerFunc.
 func WrapHandler(s *services.Services, handler Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// Set headers
-		w.Header().Set("Content-Type", "application/json")
-
 		res, err := handler(r, s)
 
-		// Handle errors
 		if err != nil {
-			serveHTTPError(w, err)
+			ServeHTTPError(w, err)
 			return
 		}
 
-		// Handle response
 		serveHTTPResponse(w, res)
 	}
 }
@@ -40,6 +35,8 @@ func WrapHandler(s *services.Services, handler Handler) http.HandlerFunc {
 // serveHTTPResponse takes in a http.ResponseWriter and a *Response and writes
 // the appropriate response to the response body.
 func serveHTTPResponse(w http.ResponseWriter, response *Response) {
+	w.Header().Set("Content-Type", "application/json")
+
 	if response == nil {
 		response = &Response{}
 	}
@@ -62,12 +59,13 @@ func serveHTTPResponse(w http.ResponseWriter, response *Response) {
 	}
 }
 
-// serveHTTPError takes in a http.ResponseWriter and an error and writes
+// ServeHTTPError takes in a http.ResponseWriter and an error and writes
 // the appropriate error response to the response body.
-func serveHTTPError(w http.ResponseWriter, err error) {
-	userErr, ok := asExternalError(err)
+func ServeHTTPError(w http.ResponseWriter, err error) {
+	w.Header().Set("Content-Type", "application/json")
 
-	// Since `err` is not a user-facing error, it is an internal error.
+	userErr, ok := asExternalError(err)
+	// Since err is not a user-facing error, it is an internal error.
 	if !ok {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)

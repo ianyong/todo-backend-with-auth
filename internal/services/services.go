@@ -11,6 +11,7 @@ import (
 type Services struct {
 	UserService *domainservices.UserService
 	TodoService *domainservices.TodoService
+	JwtManager  *auth.JWTManager
 }
 
 func SetUp(db *sqlx.DB, jwtManager *auth.JWTManager) *Services {
@@ -23,5 +24,6 @@ func SetUp(db *sqlx.DB, jwtManager *auth.JWTManager) *Services {
 	return &Services{
 		UserService: userService,
 		TodoService: todoService,
+		JwtManager:  jwtManager,
 	}
 }

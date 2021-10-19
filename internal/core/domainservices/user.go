@@ -35,7 +35,7 @@ func (s *UserService) Login(email string, password string) (*domainmodels.User, 
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPassword), []byte(password))
 	if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
-		return nil, "", &externalerrors.AuthenticationError{}
+		return nil, "", &externalerrors.LoginError{}
 	}
 	if err != nil {
 		return nil, "", err

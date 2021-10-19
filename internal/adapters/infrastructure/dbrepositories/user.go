@@ -23,7 +23,7 @@ func (r *UserDatabaseRepository) GetByEmail(email string) (*domainmodels.User, e
 	var user domainmodels.User
 	err := r.db.Get(&user, "SELECT * FROM users WHERE email = $1", email)
 	if err == sql.ErrNoRows {
-		return nil, &externalerrors.AuthenticationError{}
+		return nil, &externalerrors.LoginError{}
 	}
 	if err != nil {
 		return nil, err
