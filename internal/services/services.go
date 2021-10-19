@@ -8,14 +8,19 @@ import (
 )
 
 type Services struct {
+	UserService *domainservices.UserService
 	TodoService *domainservices.TodoService
 }
 
 func SetUp(db *sqlx.DB) *Services {
+	userRepo := dbrepositories.NewUserDatabaseRepository(db)
+	userService := domainservices.NewUserService(userRepo)
+
 	todoRepo := dbrepositories.NewTodoDatabaseRepository(db)
 	todoService := domainservices.NewTodoService(todoRepo)
 
 	return &Services{
+		UserService: userService,
 		TodoService: todoService,
 	}
 }
