@@ -41,13 +41,13 @@ func setUpMiddleware(r chi.Router, cfg *config.Config) {
 func setUpRoutes(r chi.Router, s *services.Services) {
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Route("/", routes.GetUserRoutes(s))
+		r.Route("/todos", routes.GetTodoRoutes(s))
 
 		// Private routes
 		r.Group(func(r chi.Router) {
 			r.Use(authMiddleware(s))
 
 			r.Route("/helloworld", routes.GetHelloRoutes(s))
-			r.Route("/todos", routes.GetTodoRoutes(s))
 		})
 	})
 	r.NotFound(api.WrapHandler(s, handlers.NotFound))
