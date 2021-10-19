@@ -6,10 +6,12 @@ import (
 
 type View struct {
 	Email string `json:"email"`
+	Role  string `json:"role"`
 }
 
 func ViewFrom(user *domainmodels.User) View {
 	return View{
 		Email: user.Email,
+		Role:  user.Role,
 	}
 }
