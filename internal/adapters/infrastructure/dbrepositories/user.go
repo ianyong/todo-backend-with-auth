@@ -1,9 +1,12 @@
 package dbrepositories
 
 import (
+	"database/sql"
+
 	"github.com/jmoiron/sqlx"
 
 	"github.com/ianyong/todo-backend/internal/core/domainmodels"
+	"github.com/ianyong/todo-backend/internal/errors/externalerrors"
 )
 
 type UserDatabaseRepository struct {
@@ -19,6 +22,9 @@ func NewUserDatabaseRepository(db *sqlx.DB) *UserDatabaseRepository {
 func (r *UserDatabaseRepository) GetByEmail(email string) (*domainmodels.User, error) {
 	var user domainmodels.User
 	err := r.db.Get(&user, "SELECT * FROM users WHERE email = $1", email)
+	if err == sql.ErrNoRows {
+		return nil, &externalerrors.AuthenticationError{}
+	}
 	if err != nil {
 		return nil, err
 	}
