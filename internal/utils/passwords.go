@@ -8,6 +8,8 @@ import (
 
 const HashingCost = 10
 
+var DummyPasswordHash, _ = bcrypt.GenerateFromPassword([]byte(""), HashingCost)
+
 func Hash(password string) (string, error) {
 	err := validate(password)
 	if err != nil {
