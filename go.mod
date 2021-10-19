@@ -14,6 +14,7 @@ require (
 	github.com/omeid/pgerror v0.0.0-20201018020948-42c66c4d27d4
 	github.com/rubenv/sql-migrate v0.0.0-20210614095031-55d5740dbbcc
 	github.com/stretchr/testify v1.6.1
+	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
 	gopkg.in/guregu/null.v4 v4.0.0
 )
 
