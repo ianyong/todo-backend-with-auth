@@ -1,7 +1,9 @@
 # To-do Backend
 
-Created for CS3219 Software Engineering Principles and Patterns Own Time Own Target (OTOT) Task B.
-Makes use of the Ports & Adapters architecture.
+Authentication & authorisation using JSON Web Tokens.
+
+Created for CS3219 Software Engineering Principles and Patterns Own Time Own Target (OTOT) Task C.
+Built upon OTOT Task B.
 
 Frontend: https://github.com/ianyong/todo-frontend
 
@@ -81,3 +83,15 @@ To deploy to AWS Lambda manually:
    ```sh
    $ serverless deploy
    ```
+
+## Testing Authentication & Authorisation
+
+1. Insert two users into the database, one with role set to `user`, and the other with role set to `admin`.
+1. Two endpoints have been created for testing purposes:
+   * `/api/v1/helloworld/user`: requires the user to be logged in
+   * `/api/v1/helloworld/admin`: requires the user to be logged in and to have the `admin` role
+
+   Using the access token generated when logging in, make API calls to the two endpoints with the following states:
+   * Not logged in (i.e., no access token)
+   * Logged in as a user with role `user`
+   * Logged in as a user with role `admin`

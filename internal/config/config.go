@@ -16,6 +16,7 @@ import (
 type Config struct {
 	Environment string
 	ServerPort  int
+	SecretKey   string
 	DBHost      string
 	DBPort      int
 	DBName      string
@@ -107,6 +108,7 @@ func (cfg *Config) loadConfig() error {
 	if err != nil {
 		return fmt.Errorf("unable to parse server port: %w", err)
 	}
+	cfg.SecretKey = os.Getenv("SECRET_KEY")
 	cfg.DBHost = os.Getenv("DB_HOST")
 	cfg.DBPort, err = parsePort(os.Getenv("DB_PORT"))
 	if err != nil {

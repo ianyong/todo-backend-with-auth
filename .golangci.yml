@@ -4,7 +4,6 @@ linters:
     - deadcode
     - depguard
     - dogsled
-    - dupl
     - errcheck
     - exportloopref
     - gci
